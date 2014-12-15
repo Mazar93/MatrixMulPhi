@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MATRIXMULOMP_H
+#define MATRIXMULOMP_H
+
 class MatrixMulOMP
 {
 public:
@@ -14,3 +16,4 @@ private:
 	int width;
 };
 
+#endif

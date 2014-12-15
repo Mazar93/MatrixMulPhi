@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MATRIXMULCILK_H
+#define MATRIXMULCILK_H
+
 class MatrixMulCilk
 {
 public:
@@ -14,3 +16,4 @@ private:
 	int width;
 };
 
+#endif
