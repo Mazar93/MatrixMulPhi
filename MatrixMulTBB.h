@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MATRIXMULTBB_H
+#define MATRIXMULTBB_H
+
 class MatrixMulTBB
 {
 public:
@@ -14,3 +16,4 @@ private:
 	int width;
 };
 
+#endif
