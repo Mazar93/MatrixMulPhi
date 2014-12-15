@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 #include <time.h>
-#include <cilk\cilk.h>
-#include <cilk\cilk_api.h>
+#include <cilk/cilk.h>
+#include <cilk/cilk_api.h>
 
 using namespace std;
 

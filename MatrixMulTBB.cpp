@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <time.h>
-#include <tbb\parallel_for.h>
+#include <tbb/parallel_for.h>
 
 using namespace std;
 
