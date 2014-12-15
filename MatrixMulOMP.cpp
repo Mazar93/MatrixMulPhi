@@ -3,6 +3,7 @@
 #include <string>
 #include <time.h>
 #include <omp.h>
+#include <chrono>
 
 using namespace std;
 
@@ -28,10 +29,6 @@ void MatrixMulOMP::setWidth(const int width){
 }
 
  void MatrixMulOMP::start(){
-
-
-  clock_t start, end;
-  start = clock();
 
   int **aMatrix = new int*[height];
   for( int i(0); i < height; i++ ) 
@@ -74,18 +71,22 @@ void MatrixMulOMP::setWidth(const int width){
         {
             for(int c = 0; c<width; c++)
             {
-                aMatrix[b][c]=rand() % 2 + 0;
-				bMatrix[b][c]=rand() % 2 + 0;
+                aMatrix[b][c]=rand() % 25 + 0;
+				bMatrix[b][c]=rand() % 25 + 0;
  
                 a++;
             }
         }
 
+		std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
 
 #pragma omp parallel for
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < height; j++) {
-            for (int k = 0; k < height; k++) {
+       
+			for (int k = 0; k < height; k++) {
+				for (int j = 0; j < height; j++) {
+				 for (int i = 0; i < height; i++) {
+					  
+            
                 eMatrix[i][j] += aMatrix[i][k] * bMatrix[k][j];
             }
             //std::cout << eMatrix[i][j] << "  ";
@@ -93,9 +94,10 @@ void MatrixMulOMP::setWidth(const int width){
         //std::cout << "\n";
     }
 
-  end = clock();
-  printf("Die Programmlaufzeit betrug %.2f Sekunden\n",
-  (float)(end-start) / CLOCKS_PER_SEC);
+      std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
+	  cout << std::chrono::duration<double>(end-start).count() << endl;
+
+
 
 
 
