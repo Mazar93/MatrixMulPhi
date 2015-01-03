@@ -1,33 +1,33 @@
-#include "MatrixMulCilk.h"
+#include "MatrixMul.h"
 #include <iostream>
 #include <string>
 #include <time.h>
-#include <cilk/cilk.h>
-#include <cilk/cilk_api.h>
 #include <chrono>
 
 using namespace std;
 
-MatrixMulCilk::MatrixMulCilk(void)
+
+MatrixMul::MatrixMul(void)
 {
 }
 
 
-MatrixMulCilk::~MatrixMulCilk(void)
+MatrixMul::~MatrixMul(void)
 {
 }
 
-void MatrixMulCilk::setDim(const int dim){
+
+void MatrixMul::setDim(const int dim){
 
 	this->dim = dim;
 }
 
- void MatrixMulCilk::start(){
+
+ void MatrixMul::start(){
 
 	string opt;
 	cout << "optimiert? (andere Schleifenanordnung) yes/no" << endl;
 	cin >> opt;
-
 
   int **aMatrix = new int*[dim];
   for( int i(0); i < dim; i++ ) 
@@ -70,20 +70,23 @@ void MatrixMulCilk::setDim(const int dim){
         {
             for(int c = 0; c<dim; c++)
             {
-                aMatrix[b][c]=rand() % 2 + 0;
-				bMatrix[b][c]=rand() % 2 + 0;
+                aMatrix[b][c]=rand() % 25 + 0;
+				bMatrix[b][c]=rand() % 25 + 0;
  
                 a++;
             }
         }
 
+
+
 	std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
 
-   	if (opt == "no"){
+
+	if (opt == "no"){
        
-		cilk_for (int i = 0; i < dim; i++) {
-			cilk_for (int j = 0; j < dim; j++) {
-				cilk_for (int k = 0; k < dim; k++) {
+			for (int i = 0; i < dim; i++) {
+				for (int j = 0; j < dim; j++) {
+				 for (int k = 0; k < dim; k++) {
 					  
             
                 eMatrix[i][j] += aMatrix[i][k] * bMatrix[k][j];
@@ -95,10 +98,10 @@ void MatrixMulCilk::setDim(const int dim){
 }//if
 
 	else if (opt == "yes"){
-		
-			cilk_for (int i = 0; i < dim; i++) {
-				cilk_for (int k = 0; k < dim; k++) {
-				 cilk_for (int j = 0; j < dim; j++) {
+       
+			for (int i = 0; i < dim; i++) {
+				for (int k = 0; k < dim; k++) {
+				 for (int j = 0; j < dim; j++) {
 					  
             
                 eMatrix[i][j] += aMatrix[i][k] * bMatrix[k][j];
@@ -109,14 +112,21 @@ void MatrixMulCilk::setDim(const int dim){
     }
 }//else if
 
+
+     
 	std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
 	cout << std::chrono::duration<double>(end-start).count() << endl;
 
- 
+
+
 
 
 	getchar();
 	
+
+
+
+}
 
 
 

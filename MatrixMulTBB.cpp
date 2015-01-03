@@ -2,7 +2,8 @@
 #include <iostream>
 #include <string>
 #include <time.h>
-#include <tbb/parallel_for.h>
+#include <tbb\parallel_for.h>
+#include <chrono>
 
 using namespace std;
 
@@ -16,33 +17,30 @@ MatrixMulTBB::~MatrixMulTBB(void)
 {
 }
 
-void MatrixMulTBB::setHeigth(const int height){
+void MatrixMulTBB::setDim(const int dim){
 
-	this->height = height;
+	this->dim = dim;
 }
 
-void MatrixMulTBB::setWidth(const int width){
-
-	this->width = width;
-}
 
  void MatrixMulTBB::start(){
 
+	string opt;
+	cout << "optimiert? (andere Schleifenanordnung) yes/no" << endl;
+	cin >> opt;
 
-  clock_t start, end;
-  start = clock();
 
-  int **aMatrix = new int*[height];
-  for( int i(0); i < height; i++ ) 
-	  aMatrix[i] = new int[width];
+  int **aMatrix = new int*[dim];
+  for( int i(0); i < dim; i++ ) 
+	  aMatrix[i] = new int[dim];
 
-  int **bMatrix = new int*[height];
-  for( int i(0); i < height; i++ ) 
-	  bMatrix[i] = new int[width];
+  int **bMatrix = new int*[dim];
+  for( int i(0); i < dim; i++ ) 
+	  bMatrix[i] = new int[dim];
 
-  int **eMatrix = new int*[height];
-  for( int i(0); i < height; i++ ) 
-	  eMatrix[i] = new int[width];
+  int **eMatrix = new int*[dim];
+  for( int i(0); i < dim; i++ ) 
+	  eMatrix[i] = new int[dim];
 
  
  /* vector<vector<int> > aMatrix;
@@ -69,9 +67,9 @@ void MatrixMulTBB::setWidth(const int width){
 	srand(time(0));
  
         int a = 1;
-        for(int b = 0; b<height; b++)
+        for(int b = 0; b<dim; b++)
         {
-            for(int c = 0; c<width; c++)
+            for(int c = 0; c<dim; c++)
             {
                 aMatrix[b][c]=rand() % 2 + 0;
 				bMatrix[b][c]=rand() % 2 + 0;
@@ -80,22 +78,42 @@ void MatrixMulTBB::setWidth(const int width){
             }
         }
 
+	std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
 
-
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < height; j++) {
-            for (int k = 0; k < height; k++) {
+ 	if (opt == "no"){
+       
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				for (int k = 0; k < dim; k++) {
+					  
+            
                 eMatrix[i][j] += aMatrix[i][k] * bMatrix[k][j];
             }
             //std::cout << eMatrix[i][j] << "  ";
         }
         //std::cout << "\n";
     }
+}//if
 
-   end = clock();
-   printf("Die Programmlaufzeit betrug %.2f Sekunden\n",
-   (float)(end-start) / CLOCKS_PER_SEC);
+	else if (opt == "yes"){
+       
+			for (int i = 0; i < dim; i++) {
+				for (int k = 0; k < dim; k++) {
+				 for (int j = 0; j < dim; j++) {
+					  
+            
+                eMatrix[i][j] += aMatrix[i][k] * bMatrix[k][j];
+            }
+            //std::cout << eMatrix[i][j] << "  ";
+        }
+        //std::cout << "\n";
+    }
+}//else if
 
+	std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
+	cout << std::chrono::duration<double>(end-start).count() << endl;
+
+   
 
 
 	getchar();

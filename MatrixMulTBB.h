@@ -1,19 +1,19 @@
 #ifndef MATRIXMULTBB_H
 #define MATRIXMULTBB_H
 
+
 class MatrixMulTBB
 {
 public:
 	MatrixMulTBB(void);
 	~MatrixMulTBB(void);
-	void setHeigth(int);
-	void setWidth(int);
+	void setDim(int);
 	void start();
 
 private:
-
-	int height;
-	int width;
+     int dim;
+	
 };
 
 #endif
+

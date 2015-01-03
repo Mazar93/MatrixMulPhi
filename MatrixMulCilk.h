@@ -6,14 +6,12 @@ class MatrixMulCilk
 public:
 	MatrixMulCilk(void);
 	~MatrixMulCilk(void);
-	void setHeigth(int);
-	void setWidth(int);
+	void setDim(int);
 	void start();
 
 private:
 
-	int height;
-	int width;
+	int dim;
 };
 
 #endif

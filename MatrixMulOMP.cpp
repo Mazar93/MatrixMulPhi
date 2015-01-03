@@ -18,29 +18,29 @@ MatrixMulOMP::~MatrixMulOMP(void)
 }
 
 
-void MatrixMulOMP::setHeigth(const int height){
+void MatrixMulOMP::setDim(const int dim){
 
-	this->height = height;
+	this->dim = dim;
 }
 
-void MatrixMulOMP::setWidth(const int width){
-
-	this->width = width;
-}
 
  void MatrixMulOMP::start(){
 
-  int **aMatrix = new int*[height];
-  for( int i(0); i < height; i++ ) 
-	  aMatrix[i] = new int[width];
+	string opt;
+	cout << "optimiert? (andere Schleifenanordnung) yes/no" << endl;
+	cin >> opt;
 
-  int **bMatrix = new int*[height];
-  for( int i(0); i < height; i++ ) 
-	  bMatrix[i] = new int[width];
+  int **aMatrix = new int*[dim];
+  for( int i(0); i < dim; i++ ) 
+	  aMatrix[i] = new int[dim];
 
-  int **eMatrix = new int*[height];
-  for( int i(0); i < height; i++ ) 
-	  eMatrix[i] = new int[width];
+  int **bMatrix = new int*[dim];
+  for( int i(0); i < dim; i++ ) 
+	  bMatrix[i] = new int[dim];
+
+  int **eMatrix = new int*[dim];
+  for( int i(0); i < dim; i++ ) 
+	  eMatrix[i] = new int[dim];
 
  
  /* vector<vector<int> > aMatrix;
@@ -67,9 +67,9 @@ void MatrixMulOMP::setWidth(const int width){
 	srand(time(0));
  
         int a = 1;
-        for(int b = 0; b<height; b++)
+        for(int b = 0; b<dim; b++)
         {
-            for(int c = 0; c<width; c++)
+            for(int c = 0; c<dim; c++)
             {
                 aMatrix[b][c]=rand() % 25 + 0;
 				bMatrix[b][c]=rand() % 25 + 0;
@@ -78,13 +78,17 @@ void MatrixMulOMP::setWidth(const int width){
             }
         }
 
-		std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
 
-#pragma omp parallel for
+
+	std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
+
+
+	if (opt == "no"){
+     #pragma omp parallel for
        
-			for (int k = 0; k < height; k++) {
-				for (int j = 0; j < height; j++) {
-				 for (int i = 0; i < height; i++) {
+			for (int i = 0; i < dim; i++) {
+				for (int j = 0; j < dim; j++) {
+				 for (int k = 0; k < dim; k++) {
 					  
             
                 eMatrix[i][j] += aMatrix[i][k] * bMatrix[k][j];
@@ -93,9 +97,28 @@ void MatrixMulOMP::setWidth(const int width){
         }
         //std::cout << "\n";
     }
+}//if
 
-      std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
-	  cout << std::chrono::duration<double>(end-start).count() << endl;
+	else if (opt == "yes"){
+		#pragma omp parallel for
+       
+			for (int i = 0; i < dim; i++) {
+				for (int k = 0; k < dim; k++) {
+				 for (int j = 0; j < dim; j++) {
+					  
+            
+                eMatrix[i][j] += aMatrix[i][k] * bMatrix[k][j];
+            }
+            //std::cout << eMatrix[i][j] << "  ";
+        }
+        //std::cout << "\n";
+    }
+}//else if
+
+
+     
+	std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
+	cout << std::chrono::duration<double>(end-start).count() << endl;
 
 
 

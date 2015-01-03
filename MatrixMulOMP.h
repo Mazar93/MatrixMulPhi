@@ -6,14 +6,13 @@ class MatrixMulOMP
 public:
 	MatrixMulOMP(void);
 	~MatrixMulOMP(void);
-	void setHeigth(int);
-	void setWidth(int);
+	void setDim(int);
 	void start();
 
 private:
 
-	int height;
-	int width;
+	int dim;
 };
 
 #endif
+
