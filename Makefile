@@ -3,7 +3,7 @@ CXX = icc
 CXXFLAGS = $(INCLUDES) -std=c++11 -Wall -openmp
 LDFLAGS = -openmp -tbb
 OUT = MatrixMulPhi
-SRCS = main.cpp MatrixMulCilk.cpp MatrixMulOMP.cpp MatrixMulTBB.cpp
+SRCS = main.cpp MatrixMulCilk.cpp MatrixMulOMP.cpp MatrixMulTBB.cpp MatrixMul.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(SRCS:.cpp=.d)
