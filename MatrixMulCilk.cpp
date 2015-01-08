@@ -77,6 +77,8 @@ void MatrixMulCilk::setDim(const int dim){
             }
         }
 
+	for (int t = 0; t<=5; t++){
+
 	std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
 
    	if (opt == "no"){
@@ -112,6 +114,7 @@ void MatrixMulCilk::setDim(const int dim){
 	std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
 	cout << std::chrono::duration<double>(end-start).count() << endl;
 
+	}
  
 
 

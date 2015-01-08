@@ -77,7 +77,7 @@ void MatrixMul::setDim(const int dim){
             }
         }
 
-
+	for (int t = 0; t<=5; t++){
 
 	std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
 
@@ -111,13 +111,13 @@ void MatrixMul::setDim(const int dim){
         //std::cout << "\n";
     }
 }//else if
-
+		
 
      
 	std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
 	cout << std::chrono::duration<double>(end-start).count() << endl;
 
-
+}
 
 
 
@@ -130,4 +130,4 @@ void MatrixMul::setDim(const int dim){
 
 
 
-}
+
